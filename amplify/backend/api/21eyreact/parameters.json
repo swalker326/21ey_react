@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "21eyreact",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}
