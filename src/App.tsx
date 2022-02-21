@@ -1,6 +1,11 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, {
+  useState,
+  useEffect,
+  CSSProperties,
+  ChangeEventHandler,
+} from "react";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { createBlog } from "./graphql/mutations";
 import { listBlogs } from "./graphql/queries";
 
@@ -53,6 +58,9 @@ const App = () => {
       console.log("error creating blog: ", err);
     }
   };
+  const handleSwitchChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    theme.setMode(evt.target.checked ? "light" : "dark");
+  };
 
   return (
     <Container
@@ -61,46 +69,55 @@ const App = () => {
         theme.mode === "dark" ? "bg-dark text-light" : "bg-light text-dark"
       }
     >
-      <div id="wrapper" style={styles.container}>
-        <h2 className="text-3xl font-bold underline">Amplify Todos</h2>
-
-        <Button
-          variant={theme.mode === "dark" ? "light" : "dark"}
-          style={{ margin: "6px" }}
-          onClick={toggleThemeMode}
-        >
-          {theme.mode === "dark" ? "Swith to Light" : "Switch to Dark"}
-        </Button>
-        <input
-          onChange={handleInputChange}
-          name="name"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formState.name}
-          placeholder="Name"
-        />
-        <input
-          onChange={handleInputChange}
-          name="body"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={formState.body}
-          placeholder="Type your blog..."
-        />
-        <Button
-          variant={theme.mode === "dark" ? "light" : "dark"}
-          style={{ margin: "6px" }}
-          onClick={addBlog}
-        >
-          Create Blog
-        </Button>
-        {blogs &&
-          blogs?.listBlogs?.items?.map((blog, index) => {
-            return (
-              <div key={blog?.id || index} style={styles.todo}>
-                <p style={styles.todoName}>{blog?.name}</p>
-                <p style={styles.todoDescription}>{blog?.body}</p>
-              </div>
-            );
-          })}
+      <div id="wrapper">
+        <Container style={{ maxWidth: "720px" }}>
+          <h2>Amplify Todos</h2>
+          <Row>
+            <Col>
+              <Form.Check
+                onChange={handleSwitchChange}
+                className="darkmode-switch"
+                type="switch"
+                checked={theme.mode === "dark" ? false : true}
+                id="custom-switch"
+                label={theme.mode === "dark" ? "Light Mode" : "Dark Mode"}
+              />
+              <Form.Control
+                onChange={handleInputChange}
+                name="name"
+                style={{ margin: "6px" }}
+                value={formState.name}
+                placeholder="Name"
+              />
+              <Form.Control
+                onChange={handleInputChange}
+                style={{ margin: "6px" }}
+                name="body"
+                value={formState.body}
+                placeholder="Type your blog..."
+              />
+              <Button
+                variant={theme.mode === "dark" ? "light" : "dark"}
+                style={{ margin: "6px" }}
+                onClick={addBlog}
+                className="float-right"
+              >
+                Create Blog
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            {blogs &&
+              blogs?.listBlogs?.items?.map((blog, index) => {
+                return (
+                  <Container key={blog?.id || index}>
+                    <p>{blog?.name}</p>
+                    <p>{blog?.body}</p>
+                  </Container>
+                );
+              })}
+          </Row>
+        </Container>
       </div>
     </Container>
   );
