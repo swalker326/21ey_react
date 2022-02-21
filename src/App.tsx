@@ -42,9 +42,6 @@ const App = () => {
       console.log("Error fetching blogs" + err);
     }
   };
-  const toggleThemeMode = () => {
-    theme.setMode(theme.mode === "dark" ? "light" : "dark");
-  };
   const addBlog = async () => {
     try {
       if (!formState.name || !formState.body) return;
@@ -71,7 +68,7 @@ const App = () => {
     >
       <div id="wrapper">
         <Container style={{ maxWidth: "720px" }}>
-          <h2>Amplify Todos</h2>
+          <h2>Amplify Blogs</h2>
           <Row>
             <Col>
               <Form.Check
