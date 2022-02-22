@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormInputState, FormState } from "./@types";
 import { Auth } from "aws-amplify";
 import { Container } from "react-bootstrap";
@@ -12,6 +12,25 @@ export const Register: React.FC = ({ children }) => {
     email: "",
     verificationCode: "",
   };
+  const isAuthtenicated = async () => {
+    try {
+      const currentUser = await Auth.currentAuthenticatedUser();
+      return currentUser;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    isAuthtenicated().then((user) => {
+      console.log(user);
+      if (user) {
+        setFormState("signedIn");
+      } else {
+        setFormState("signIn");
+      }
+    });
+  });
+
   const [formState, setFormState] = useState<FormState>("signIn");
   const [formInputState, setFormInputState] =
     useState<FormInputState>(initialFormValues);

@@ -1,25 +1,19 @@
 import React, { useState, useEffect, CSSProperties } from "react";
 import "@aws-amplify/ui-react/styles.css";
 import Amplify, { API, graphqlOperation, Auth } from "aws-amplify";
-import { Button, Container, Form, Row, Col } from "react-bootstrap";
+import { Container, Form, Row, Col } from "react-bootstrap";
 import { createBlog } from "./graphql/mutations";
 import { listBlogs } from "./graphql/queries";
 
 import awsExports from "./aws-exports";
 import { ListBlogsQuery } from "./API";
 import { useThemeMode } from "./useTheme";
-import {
-  CognitoAttributes,
-  CognitoUserAmplify,
-} from "@aws-amplify/ui-react/node_modules/@aws-amplify/ui";
+import { CognitoUserAmplify } from "@aws-amplify/ui-react/node_modules/@aws-amplify/ui";
 import { Register } from "./features/register/Register";
 import { ModeButton } from "./components/ModeButton";
 
 Amplify.configure(awsExports);
 const initialState = { name: "", body: "" };
-interface StylesObject {
-  [key: string]: CSSProperties;
-}
 
 const App = () => {
   const theme = useThemeMode();
@@ -31,6 +25,14 @@ const App = () => {
     fetchPosts();
     getUserEmail();
   }, []);
+
+  const signOut = async () => {
+    try {
+      await Auth.signOut();
+    } catch (error) {
+      console.log("error signing out: ", error);
+    }
+  };
   const getUserEmail = () => {
     Auth.currentAuthenticatedUser({
       bypassCache: false,
@@ -92,11 +94,7 @@ const App = () => {
             <h4>{userEmail}</h4>
             <Row>
               <Col>
-                <ModeButton
-                  style={{ margin: "6px" }}
-                  // #TODO Add logic to sign out
-                  // onClick={signOut}
-                >
+                <ModeButton style={{ margin: "6px" }} onClick={signOut}>
                   Sign Out
                 </ModeButton>
                 <Form.Control
@@ -134,34 +132,6 @@ const App = () => {
       </Register>
     </Container>
   );
-};
-const styles: StylesObject = {
-  container: {
-    width: 400,
-    margin: "0 auto",
-    display: "flex",
-    //real weird issue: https://github.com/cssinjs/jss/issues/1344
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: 20,
-  },
-  todo: { marginBottom: 15 },
-  input: {
-    border: "none",
-    backgroundColor: "#ddd",
-    marginBottom: 10,
-    padding: 8,
-    fontSize: 18,
-  },
-  todoName: { fontSize: 20, fontWeight: "bold" },
-  todoDescription: { marginBottom: 0 },
-  button: {
-    backgroundColor: "black",
-    color: "white",
-    outline: "none",
-    fontSize: 18,
-    padding: "12px 0px",
-  },
 };
 
 export default App;

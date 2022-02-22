@@ -1,7 +1,7 @@
 export interface RegisterFormProps {
   formInputState: {
-    password: string;
     email: string;
+    password: string;
     verificationCode: string;
   };
   setFormInputState: Dispatch<
