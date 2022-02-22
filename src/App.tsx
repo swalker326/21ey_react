@@ -1,5 +1,4 @@
 import React, { useState, useEffect, CSSProperties } from "react";
-import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import Amplify, { API, graphqlOperation, Auth } from "aws-amplify";
 import { Button, Container, Form, Row, Col } from "react-bootstrap";
@@ -13,6 +12,8 @@ import {
   CognitoAttributes,
   CognitoUserAmplify,
 } from "@aws-amplify/ui-react/node_modules/@aws-amplify/ui";
+import { Register } from "./features/register/Register";
+import { ModeButton } from "./components/ModeButton";
 
 Amplify.configure(awsExports);
 const initialState = { name: "", body: "" };
@@ -70,77 +71,73 @@ const App = () => {
   };
 
   return (
-    <Authenticator variation="modal">
-      {({ signOut, user }) => (
-        <Container
-          fluid
-          className={
-            theme.mode === "dark" ? "bg-dark text-light" : "bg-light text-dark"
-          }
-          style={{ height: "100vh" }}
-        >
-          <div id="wrapper">
-            <Container style={{ maxWidth: "720px" }}>
-              <h2>Amplify Blogs</h2>
-              <h4>{userEmail}</h4>
-              <Row>
-                <Col>
-                  <div className="m-0 d-flex align-items-center">
-                    <Button
-                      variant={theme.mode === "dark" ? "light" : "dark"}
-                      style={{ margin: "6px" }}
-                      onClick={signOut}
-                    >
-                      Sign Out
-                    </Button>
-                    <Form.Check
-                      onChange={handleSwitchChange}
-                      className="darkmode-switch"
-                      type="switch"
-                      checked={theme.mode === "dark" ? false : true}
-                      id="custom-switch"
-                      label={theme.mode === "dark" ? "Light Mode" : "Dark Mode"}
-                    />
-                  </div>
-                  <Form.Control
-                    onChange={handleInputChange}
-                    name="name"
+    <Container
+      fluid
+      className={
+        theme.mode === "dark" ? "bg-dark text-light" : "bg-light text-dark"
+      }
+    >
+      <Form.Check
+        onChange={handleSwitchChange}
+        className="darkmode-switch"
+        type="switch"
+        checked={theme.mode === "dark" ? false : true}
+        id="custom-switch"
+        label={theme.mode === "dark" ? "Light Mode" : "Dark Mode"}
+      />
+      <Register>
+        <div id="wrapper">
+          <Container style={{ maxWidth: "720px" }}>
+            <h2>Amplify Blogs</h2>
+            <h4>{userEmail}</h4>
+            <Row>
+              <Col>
+                <div className="m-0 d-flex align-items-center">
+                  <ModeButton
                     style={{ margin: "6px" }}
-                    value={formState.name}
-                    placeholder="Name"
-                  />
-                  <Form.Control
-                    onChange={handleInputChange}
-                    style={{ margin: "6px" }}
-                    name="body"
-                    value={formState.body}
-                    placeholder="Type your blog..."
-                  />
-                  <Button
-                    variant={theme.mode === "dark" ? "light" : "dark"}
-                    style={{ margin: "6px" }}
-                    onClick={addBlog}
+                    // #TODO Add logic to sign out
+                    // onClick={signOut}
                   >
-                    Create Blog
-                  </Button>
-                </Col>
-              </Row>
-              <Row>
-                {blogs &&
-                  blogs?.listBlogs?.items?.map((blog, index) => {
-                    return (
-                      <Container key={blog?.id || index}>
-                        <p>{blog?.name}</p>
-                        <p>{blog?.body}</p>
-                      </Container>
-                    );
-                  })}
-              </Row>
-            </Container>
-          </div>
-        </Container>
-      )}
-    </Authenticator>
+                    Sign Out
+                  </ModeButton>
+                </div>
+                <Form.Control
+                  onChange={handleInputChange}
+                  name="name"
+                  style={{ margin: "6px" }}
+                  value={formState.name}
+                  placeholder="Name"
+                />
+                <Form.Control
+                  onChange={handleInputChange}
+                  style={{ margin: "6px" }}
+                  name="body"
+                  value={formState.body}
+                  placeholder="Type your blog..."
+                />
+                <ModeButton
+                  style={{ margin: "6px" }}
+                  onClick={addBlog}
+                >
+                  Create Blog
+                </ModeButton>
+              </Col>
+            </Row>
+            <Row>
+              {blogs &&
+                blogs?.listBlogs?.items?.map((blog, index) => {
+                  return (
+                    <Container key={blog?.id || index}>
+                      <p>{blog?.name}</p>
+                      <p>{blog?.body}</p>
+                    </Container>
+                  );
+                })}
+            </Row>
+          </Container>
+        </div>
+      </Register>
+    </Container>
   );
 };
 const styles: StylesObject = {
