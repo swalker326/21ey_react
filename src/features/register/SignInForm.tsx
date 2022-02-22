@@ -21,80 +21,78 @@ export const SignInForm = ({
     <Container>
       <Row>
         <Col lg>
-          <div>
-            <Row>
-              <Col lg>
-                <h1 className="mt-5">Sign In Form</h1>
-              </Col>
-            </Row>
-            <Formik
-              enableReinitialize
-              initialValues={{
-                email: "",
-                password: "",
-                status: "idle",
-              }}
-              validationSchema={SignUpFormSchema}
-              onSubmit={async (values, { setSubmitting }) => {
-                console.log("values :", values);
-                formSubmit();
-                setSubmitting(false);
-              }}
-            >
-              {({ handleChange }) => {
-                return (
-                  <Container fluid>
-                    <Form>
-                      <Container
-                        className="form-group"
-                        style={{
-                          width: "50%",
-                          display: "flex",
-                          flexDirection: "column",
+          <Row>
+            <Col lg>
+              <h1 className="mt-5">Sign In Form</h1>
+            </Col>
+          </Row>
+          <Formik
+            enableReinitialize
+            initialValues={{
+              email: "",
+              password: "",
+              status: "idle",
+            }}
+            validationSchema={SignUpFormSchema}
+            onSubmit={async (values, { setSubmitting }) => {
+              console.log("values :", values);
+              formSubmit();
+              setSubmitting(false);
+            }}
+          >
+            {({ handleChange }) => {
+              return (
+                <Container fluid>
+                  <Form>
+                    <Container
+                      className="form-group"
+                      style={{
+                        width: "50%",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <Field
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formInputState.email}
+                        placeholder="Enter email"
+                        onChange={(
+                          event: React.ChangeEvent<HTMLInputElement>,
+                        ) => {
+                          handleChange(event);
+                          onChangeStateUpdate(event);
                         }}
-                      >
-                        <Field
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formInputState.email}
-                          placeholder="Enter email"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>,
-                          ) => {
-                            handleChange(event);
-                            onChangeStateUpdate(event);
-                          }}
-                          style={{ margin: "6px 0" }}
-                        />
+                        style={{ margin: "6px 0" }}
+                      />
 
-                        <Field
-                          id="password"
-                          type="password"
-                          name="password"
-                          value={formInputState.password}
-                          placeholder="Enter password"
-                          onChange={(
-                            event: React.ChangeEvent<HTMLInputElement>,
-                          ) => {
-                            handleChange(event);
-                            onChangeStateUpdate(event);
-                          }}
-                          style={{ margin: "6px 0" }}
-                        />
-                      </Container>
-                      <ModeButton
-                        type="submit"
-                        className="btn btn-primary btnblock mt-4"
-                      >
-                        Sumbit
-                      </ModeButton>
-                    </Form>
-                  </Container>
-                );
-              }}
-            </Formik>
-          </div>
+                      <Field
+                        id="password"
+                        type="password"
+                        name="password"
+                        value={formInputState.password}
+                        placeholder="Enter password"
+                        onChange={(
+                          event: React.ChangeEvent<HTMLInputElement>,
+                        ) => {
+                          handleChange(event);
+                          onChangeStateUpdate(event);
+                        }}
+                        style={{ margin: "6px 0" }}
+                      />
+                    </Container>
+                    <ModeButton
+                      type="submit"
+                      className="btn btn-primary btnblock mt-4"
+                    >
+                      Sumbit
+                    </ModeButton>
+                  </Form>
+                </Container>
+              );
+            }}
+          </Formik>
         </Col>
       </Row>
     </Container>

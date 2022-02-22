@@ -92,15 +92,13 @@ const App = () => {
             <h4>{userEmail}</h4>
             <Row>
               <Col>
-                <div className="m-0 d-flex align-items-center">
-                  <ModeButton
-                    style={{ margin: "6px" }}
-                    // #TODO Add logic to sign out
-                    // onClick={signOut}
-                  >
-                    Sign Out
-                  </ModeButton>
-                </div>
+                <ModeButton
+                  style={{ margin: "6px" }}
+                  // #TODO Add logic to sign out
+                  // onClick={signOut}
+                >
+                  Sign Out
+                </ModeButton>
                 <Form.Control
                   onChange={handleInputChange}
                   name="name"
@@ -115,10 +113,7 @@ const App = () => {
                   value={formState.body}
                   placeholder="Type your blog..."
                 />
-                <ModeButton
-                  style={{ margin: "6px" }}
-                  onClick={addBlog}
-                >
+                <ModeButton style={{ margin: "6px" }} onClick={addBlog}>
                   Create Blog
                 </ModeButton>
               </Col>
