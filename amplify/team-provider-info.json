@@ -10,6 +10,11 @@
       "StackName": "amplify-21eyreact-dev-115439",
       "StackId": "arn:aws:cloudformation:us-east-1:145035394531:stack/amplify-21eyreact-dev-115439/2dfffc70-9276-11ec-81ea-12afef57a9bb",
       "AmplifyAppId": "d2fo97pgino5xd"
+    },
+    "categories": {
+      "auth": {
+        "21eyreact1fbf6221": {}
+      }
     }
   }
 }
